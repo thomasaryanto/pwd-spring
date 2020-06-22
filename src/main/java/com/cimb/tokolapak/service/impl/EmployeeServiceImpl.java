@@ -1,6 +1,6 @@
 package com.cimb.tokolapak.service.impl;
 
-import java.util.Optional;
+//import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,17 +32,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Employee addEmployeeAddress(EmployeeAddress employeeAddress, int employeeId) {
-		Optional<Employee> findEmployee = employeeRepo.findById(employeeId);
+		Employee findEmployee = employeeRepo.findById(employeeId).get();
 		
-		if(findEmployee.toString() == "Optional.empty") {
+		if(findEmployee == null) {
 			throw new RuntimeException("Employee not found!");
 		}
-		
-		employeeAddress.setEmployee(findEmployee.get());
-		employeeAddressRepo.save(employeeAddress);
-		findEmployee.get().setEmployeeAddress(employeeAddress);
-		employeeRepo.save(findEmployee.get());
-		return findEmployee.get();
+//		
+//		employeeAddress.setEmployee(findEmployee.get());
+//		employeeAddressRepo.save(employeeAddress);
+		findEmployee.setEmployeeAddress(employeeAddress);
+		return employeeRepo.save(findEmployee);
 	}
 
 }

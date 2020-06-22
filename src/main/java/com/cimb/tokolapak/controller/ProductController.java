@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cimb.tokolapak.dao.ProductRepo;
 import com.cimb.tokolapak.entity.Product;
 import com.cimb.tokolapak.service.ProductService;
 
@@ -18,6 +19,9 @@ import com.cimb.tokolapak.service.ProductService;
 public class ProductController {
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ProductRepo productRepo;
 	
 	@GetMapping("/products")
 	public Iterable<Product> getProducts(){
@@ -49,4 +53,8 @@ public class ProductController {
 		productService.deleteProductById(id);
 	}
 	
+	@GetMapping("/products/custom")
+	public Iterable<Product> getProductsCustom(){
+		return productRepo.findProductByMinPrice(10000, 25000);
+	}
 }
